@@ -25,7 +25,7 @@ public extension PreviewProvider {
     }
 }
 
-private struct PreviewLog : View {
+struct PreviewLog : View {
     ///  PreviewLog creates a basic console for the Preview mode in Xcode, showing a scrollable list of any expressions that are sent to log(:), or Log(:) , for command and view composition modes respectively.
     ///  It is designed to work like the console in Xcode when running code in the simulator.
     ///  The view will always start in the down position, but can be brought up or minimised by clicking the middle bar on the header. The bar header can also be dragged into the desired position.
@@ -34,7 +34,7 @@ private struct PreviewLog : View {
 
     var body: some View {
         GeometryReader { geometry in
-            let maxHeight = geometry.size.height - 3 * Constants.pullBarHeight
+            let maxHeight = geometry.size.height - 3 * PreviewLogConstants.pullBarHeight
             VStack(spacing: 0) {
                 Spacer()
                 PullUpBar(frameHeight: $frameHeight, screenWidth: geometry.size.width)
@@ -56,3 +56,5 @@ private struct PreviewLog : View {
         }.edgesIgnoringSafeArea(.all)
     }
 }
+
+

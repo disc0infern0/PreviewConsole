@@ -21,22 +21,24 @@ public var Log: (@autoclosure () -> Any) -> EmptyView = { e in
 #endif
 
 class ConsoleVM: ObservableObject {
+    /// Defines the log(_:) and Log(_:) methods invocable in the view to be debugged
     @Published var messages: [Message] = []
     @Published var newMessageId: String? //trigger for autoscrolling
+    enum ConsoleConstants { static let maximumMessages = 200 }
 
     public func Log(_ expression: @autoclosure () -> Any ) -> EmptyView {
         self.log(expression() )
         return EmptyView()
     }
 
-    public func log(_ expression: @autoclosure () -> Any) {
+    public func log(_ expression: @autoclosure () -> Any, _ messageType: MessageType = .debug ) {
         let text = "\(expression())"
 
         guard (text.count > 0) else { return }
         Swift.print(text)
-        let message = Message(text: text )
+        let message = Message(text: text, messageType: messageType)
         messages.append(message)
-        if messages.count > 200 {
+        if messages.count > ConsoleConstants.maximumMessages {
             messages.removeFirst()
         }
         self.newMessageId = message.id // triggers onChange view update
@@ -101,7 +103,7 @@ extension Date {
         return formatter
     }()
 }
-enum MessageType {
+public enum MessageType {
     case info, debug, trace
     func color() -> Color {
         switch (self) {
@@ -115,16 +117,7 @@ struct Message: Identifiable, Equatable {
     let id = UUID().uuidString
     var text: String
     let created = Date()
-    let messageType: MessageType
-
-    init(text: String) {
-        self.init(text: text, messageType: .debug)
-    }
-
-    init(text: String, messageType: MessageType) {
-        self.text = text
-        self.messageType = messageType
-    }
+    var messageType: MessageType
 }
 
 
@@ -149,7 +142,3 @@ struct ReversedScrollView<Content: View>: View {
         } .edgesIgnoringSafeArea(.all) //.vertical)
     }
 }
-
-
-
-

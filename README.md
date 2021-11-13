@@ -40,11 +40,11 @@ e.g.
         log("this line should never be executed \(7*6)", .info )
     }
 
-Different colors will be displayed to the log based on the messageType. ( White,  black and yellow respectively )
+Different colors will be displayed to the log based on the messageType. 
 
 View Logging
 ------------
-In view composition code, you can use the alternate form, 
+In view / declarative code, you can use the alternate form, 
 
     Log(_:,_:) 
 which takes the same parameters as above, the second parameter if not supplied will default to `.debug`
@@ -72,7 +72,7 @@ Installation
 ============
 Swift Package Manager
 ---------------------
-Add package from Xcode directly from git.
+Add package from Xcode directly from git.  https://github.com/disc0infern0/PreviewConsole
 
 Cocoapods/Carthage etc
 ----------------------

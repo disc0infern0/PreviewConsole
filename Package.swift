@@ -4,14 +4,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "PreviewLog",
-    platforms: [ .iOS(.v15), .macOS(.v11)
+    name: "PreviewConsole",
+    platforms: [ .iOS(.v15), .macOS(.v12), .tvOS(.v15), .watchOS(.v8)
                ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "PreviewLog",
-            targets: ["PreviewLog"]),
+            name: "PreviewConsole",
+            targets: ["PreviewConsole"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,7 +21,7 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "PreviewLog",
+            name: "PreviewConsole",
             dependencies: []),
 //        .testTarget(
 //            name: "PreviewLogTests",

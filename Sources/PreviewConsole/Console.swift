@@ -5,17 +5,18 @@
 //
 // MIT License. See LICENSE file attached.
 
-/// Shows a scrollable list of any expressions that are sent to log(:), or Log(:) ,
-/// for command and view composition code respectively.
-///  It is designed to allow viewing of print statements within the preview, in a similar fashion
+/// Shows a scrollable list of any expressions that are sent to print(), log(:), for imperative,  or Log(:) ,
+///  for declarative,  code.
+///  It is designed to allow viewing of print statements within the Xcode preview, in a similar fashion
 ///  to how you view messages in the Xcode console when running the simulator.
-///
+/// 
 
 // swiftlint:disable identifier_name
 
 import SwiftUI
 
 #if DEBUG
+// Probably way too many print() overloads, but attempting to cover all bases!
 public func print(_ object: Any...) {
   for item in object {
     log(item)

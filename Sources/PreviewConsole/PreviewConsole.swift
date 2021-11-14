@@ -193,9 +193,7 @@ extension Numeric {
 extension Comparable {
   /// returns a value of self limited between the upper and lower bounds of the supplied range
   func between(_ range: ClosedRange<Self>) -> Self {
-    let lower = range.lowerBound
-    let upper = range.upperBound
-    return min(upper, max(self, lower))
+    min(range.upperBound, max(self, range.lowerBound))
   }
 }
 

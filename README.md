@@ -78,7 +78,6 @@ Cocoapods/Carthage etc
 ----------------------
 Unforunately I have zero knowledge of these package managers, so you are on your own with these, but since the package is made entirely from two swift files, I'm sure you'll be fine.
 
-
 <br>  
 <br>  
 <br>  

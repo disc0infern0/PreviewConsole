@@ -12,19 +12,25 @@ struct ExampleView: View {
   var body: some View {
     VStack {
       Text("Hi Logger!")
-      Log("help! \(7*6) ") // uses default .debug
+      Log("help! \(7*6) printed from Log") // uses default .debug
+
       Button("Add an info log message") {
         log("Log \(counter). Swipe to see time of log ", .info )
         counter++
-      }.buttonStyle(.borderedProminent)
+      }
+      .buttonStyle(.borderedProminent)
+
       Button("Add a trace message") {
         log("Tracing counter.\(counter)  (swipe to see time of trace) ", .trace )
         counter++
-      }.buttonStyle(.borderedProminent)
+      }
+      .buttonStyle(.borderedProminent)
+
       Button("Add a debug message") {
         print("Debugger's Log. Stardate 4523.3\(counter)  ")
         counter++
-      }.buttonStyle(.borderedProminent)
+      }
+      .buttonStyle(.borderedProminent)
     }
   }
 }

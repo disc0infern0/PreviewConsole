@@ -29,9 +29,9 @@ public extension View {
     .previewDisplayName("Debugger's log") //  Stardate 4523.3
   }
 }
-extension PreviewProvider {
+public extension PreviewProvider {
   /// Add a pull-up console. Invoke with console { ... }
-  static public func console<Content: View>(@ViewBuilder yourContent: () -> Content) -> some View {
+  static func console<Content: View>(@ViewBuilder yourContent: () -> Content) -> some View {
     ZStack {
       yourContent()
       PullUp( Console() )
@@ -39,7 +39,7 @@ extension PreviewProvider {
     .previewDisplayName("Debugger's log") //  Stardate 4523.3
   }
   /// Add a pull-up console. Invoke with console( ViewName() )
-  static public func console<Content: View>(_ yourContent: Content) -> some View {
+  static func console<Content: View>(_ yourContent: Content) -> some View {
     ZStack {
       yourContent
       PullUp( Console() )

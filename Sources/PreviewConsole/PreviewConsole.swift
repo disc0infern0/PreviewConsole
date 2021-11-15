@@ -34,7 +34,8 @@ import SwiftUI
  */
 
 postfix operator .|
-extension PreviewProvider {
+
+public extension PreviewProvider {
    /// Add a pull-up console. Invoke with console { ... }
    static func console<Content: View>(@ViewBuilder yourContent: () -> Content) -> some View {
       ZStack {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExampleView: View {
+struct PreviewConsoleExample: View {
   @State var counter = 1
   var body: some View {
     VStack {
@@ -38,7 +38,7 @@ struct ExampleView: View {
 struct SwiftUIView_Previews: PreviewProvider {
   static var previews: some View {
     console {
-      ExampleView()
+      PreviewConsoleExample()
     }
   }
 }

@@ -19,10 +19,9 @@
 import SwiftUI
 
 #if DEBUG
-
 /* Create a view extension per below if you want to see the preview console in the simulator
  */
- // add .console() to the main view.
+ // Ability to add .console() to the main view.
  public extension View {
  	func console() -> some View {
  		ZStack {
@@ -51,8 +50,12 @@ public extension PreviewProvider {
       .previewDisplayName("Debugger's log") //  Stardate 4523.3
    }
 }
-
+fileprivate enum Defaults {
+   static let animationDelay = 0.75
+   static let notificationDelay = 0.42
+}
 struct PreviewConsole: View {
+
    @StateObject
    var viewmodel = PullUpVM()
    @State var timer: Timer?
@@ -64,7 +67,7 @@ struct PreviewConsole: View {
                PullUpBar()
                Console()
             }
-            .animation(.easeIn(duration: 0.75), value: viewmodel.isUp )  // animate open/close  (not dragging!)
+            .animation(.easeIn(duration: Defaults.animationDelay), value: viewmodel.isUp )  // animate open/close  (not dragging!)
             .environmentObject(viewmodel)  // Pass viewmodel into enviroment for reference by wrapped view
          }
          .onAppear {
@@ -72,13 +75,12 @@ struct PreviewConsole: View {
             let i = 0.42
             timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
                if viewmodel.unreadMessages {
-                  withAnimation(.easeIn(duration: i)) { viewmodel.arrowFraction = 0.5 }
-                  withAnimation(.easeOut(duration: i).delay(i)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.5 : 0.0 }
-                  withAnimation(.easeIn(duration: i).delay(i*2)) { viewmodel.arrowFraction = 0.5 }
-                  withAnimation(.easeOut(duration: i).delay(i*3)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.0 : 0.0 }
+                  withAnimation(.easeIn(duration: Defaults.notificationDelay)) { viewmodel.arrowFraction = 0.5 }
+                  withAnimation(.easeOut(duration: i).delay(Defaults.notificationDelay)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.5 : 0.0 }
+                  withAnimation(.easeIn(duration: i).delay(Defaults.notificationDelay*2)) { viewmodel.arrowFraction = 0.5 }
+                  withAnimation(.easeOut(duration: i).delay(Defaults.notificationDelay*3)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.0 : 0.0 }
                }
             }
-
          }
       }
       .edgesIgnoringSafeArea(.all)

@@ -56,7 +56,7 @@ public var Log: (@autoclosure () -> Any) -> EmptyView = { _ in
 
 #if DEBUG
 // Define a struct to hold default values
-struct Defaults {
+fileprivate struct Defaults {
    static let backgroundColour: Color = .primary
    static let numberOfBlankLines: Int = 42
    static let maximumMessageCount: Int = 4200

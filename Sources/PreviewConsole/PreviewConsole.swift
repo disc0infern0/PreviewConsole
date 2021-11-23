@@ -50,7 +50,7 @@ public extension PreviewProvider {
       .previewDisplayName("Debugger's log") //  Stardate 4523.3
    }
 }
-fileprivate enum Defaults {
+fileprivate enum AnimationDefaults {
    static let animationDelay = 0.75
    static let notificationDelay = 0.42
 }
@@ -67,7 +67,7 @@ struct PreviewConsole: View {
                PullUpBar()
                Console()
             }
-            .animation(.easeIn(duration: Defaults.animationDelay), value: viewmodel.isUp )  // animate open/close  (not dragging!)
+            .animation(.easeIn(duration: AnimationDefaults.animationDelay), value: viewmodel.isUp )  // animate open/close  (not dragging!)
             .environmentObject(viewmodel)  // Pass viewmodel into enviroment for reference by wrapped view
          }
          .onAppear {
@@ -75,10 +75,10 @@ struct PreviewConsole: View {
             let i = 0.42
             timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
                if viewmodel.unreadMessages {
-                  withAnimation(.easeIn(duration: Defaults.notificationDelay)) { viewmodel.arrowFraction = 0.5 }
-                  withAnimation(.easeOut(duration: i).delay(Defaults.notificationDelay)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.5 : 0.0 }
-                  withAnimation(.easeIn(duration: i).delay(Defaults.notificationDelay*2)) { viewmodel.arrowFraction = 0.5 }
-                  withAnimation(.easeOut(duration: i).delay(Defaults.notificationDelay*3)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.0 : 0.0 }
+                  withAnimation(.easeIn(duration: AnimationDefaults.notificationDelay)) { viewmodel.arrowFraction = 0.5 }
+                  withAnimation(.easeOut(duration: i).delay(AnimationDefaults.notificationDelay)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.5 : 0.0 }
+                  withAnimation(.easeIn(duration: i).delay(AnimationDefaults.notificationDelay*2)) { viewmodel.arrowFraction = 0.5 }
+                  withAnimation(.easeOut(duration: i).delay(AnimationDefaults.notificationDelay*3)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.0 : 0.0 }
                }
             }
          }

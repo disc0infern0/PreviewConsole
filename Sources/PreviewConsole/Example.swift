@@ -42,3 +42,10 @@ struct SwiftUIView_Previews: PreviewProvider {
     }
   }
 }
+
+extension Numeric {
+   /// For Kernighan and Ritchie, who set me on my coding journey
+   static postfix func ++ ( num: inout Self) {
+      num += 1
+   }
+}

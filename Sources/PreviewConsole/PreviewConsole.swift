@@ -60,7 +60,9 @@ public extension PreviewProvider {
 
 struct PullUp<Content: View>: View {
    var content: Content
-   @StateObject var viewmodel = PullUpVM()
+   @StateObject
+   var viewmodel = PullUpVM()
+   @State var timer: Timer?
    var body: some View {
       GeometryReader { geo in
          ZStack(alignment: .bottom ) {
@@ -69,9 +71,21 @@ struct PullUp<Content: View>: View {
                PullUpBar()
                content
             }
-            .animation(.easeIn(duration: 0.42), value: viewmodel.isUp )  // animate open/close  (not dragging!)
+            .animation(.easeIn(duration: 0.75), value: viewmodel.isUp )  // animate open/close  (not dragging!)
             .environmentObject(viewmodel)  // Pass viewmodel into enviroment for reference by wrapped view
-         }.onAppear { viewmodel.setScreenHeight(to: geo.size.height) }
+         }.onAppear {
+            viewmodel.setScreenHeight(to: geo.size.height)
+            let i = 0.42
+            timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+               if viewmodel.unreadMessages {
+                  withAnimation(.easeIn(duration: i)) { viewmodel.arrowFraction = 0.5 }
+                  withAnimation(.easeOut(duration: i).delay(i)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.5 : 0.0 }
+                  withAnimation(.easeIn(duration: i).delay(i*2)) { viewmodel.arrowFraction = 0.5 }
+                  withAnimation(.easeOut(duration: i).delay(i*3)) { viewmodel.arrowFraction = viewmodel.frameHeight > 0 ? 1.0 : 0.0 }
+               }
+            }
+
+         }
       }
       .edgesIgnoringSafeArea(.all)
    }
@@ -87,7 +101,15 @@ final class PullUpVM: ObservableObject {
    // Lists make the height jump around at top of screen, so avoid it with a maxHeight
    var maxHeight: CGFloat { screenHeight - pullBarHeight - 30 }
    let pullBarHeight: CGFloat = 26
-   @Published var frameHeight: CGFloat = 0
+   var unreadMessages = false
+   @Published
+   var frameHeight: CGFloat = 0
+   @Published
+   var arrowFraction: Double = 0 // { frameHeight > 0 ? 1.0 : 0.0 }
+   init() {
+		$frameHeight.map { $0 > 0 ? 1 : 0 }
+         .assign(to: &$arrowFraction)
+   }
 
    // toggle up/down if handle is tapped
    func tapped() {
@@ -153,7 +175,7 @@ struct PullUpBar: View {
    /// Display a 'fancy' handle that points in the direction that the view can be
    /// opened or minimised.
    var handle: some View {
-      HandleShape(fraction: viewmodel.isUp ? 1.0 : 0.0 )
+      HandleShape(fraction: viewmodel.arrowFraction )
          .stroke(Color.secondary, style: StrokeStyle(lineWidth: viewmodel.pullBarHeight/6, lineCap: .round, lineJoin: .round))
          .frame(height: viewmodel.pullBarHeight * 0.32) // governs height of triangle centre
          .onTapGesture { viewmodel.tapped() }
@@ -197,12 +219,6 @@ struct HandleShape: Shape {
    }
 }
 
-extension Numeric {
-   /// For Kernighan and Ritchie, who set me on my coding journey
-   static postfix func ++ ( num: inout Self) {
-      num += 1
-   }
-}
 /// Range checking
 extension Comparable {
    /// returns a value of self limited between the upper and lower bounds of the supplied range
@@ -210,5 +226,22 @@ extension Comparable {
       min(range.upperBound, max(self, range.lowerBound))
    }
 }
+
+#else
+// Production code.. still needs a call to console { } for syntactic compliance,
+// but since this is an extension of PreviewProvider
+// it will be eliminated in the compiler for production.
+
+public extension PreviewProvider {
+   /// Add a pull-up console. Invoke with console { ... }
+   static func console<Content: View>(@ViewBuilder yourContent: () -> Content) -> some View {
+         yourContent()
+   }
+   /// Add a pull-up console. Invoke with console( ViewName() )
+   static func console<Content: View>(_ yourContent: Content) -> some View {
+         yourContent
+   }
+}
+
 
 #endif

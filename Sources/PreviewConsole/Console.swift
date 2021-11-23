@@ -47,7 +47,8 @@ public func Log(
     return EmptyView()
   }
 #else
-public var log = {}
+public enum obfuscatedLogType999 { case debug, info, trace}
+public func log(_ a: Any, _ b: obfuscatedLogType999 = .debug) {}
 public var Log: (@autoclosure () -> Any) -> EmptyView = { _ in
   return EmptyView()
 }
@@ -116,8 +117,14 @@ struct Console: View {
         }
       }
       .listStyle(.plain)
-      .onChange(of: consoleVM.messages) {_ in scrollToBottom(proxy) }  // Messages added
-      .onChange(of: pullUpVM.isUp) {_ in scrollToBottom(proxy) } // open/close
+      .onChange(of: consoleVM.messages) {_ in // Messages added
+         scrollToBottom(proxy)
+         if !pullUpVM.isUp {pullUpVM.unreadMessages = true }
+      }
+      .onChange(of: pullUpVM.isUp) {_ in // open/close
+         scrollToBottom(proxy)
+         if pullUpVM.isUp {pullUpVM.unreadMessages = false }
+      }
       .onChange(of: pullUpVM.isDragging) {_ in scrollToBottom(proxy) } // drag change
     }
     .frame(height: pullUpVM.frameHeight)

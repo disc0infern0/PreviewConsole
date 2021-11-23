@@ -38,7 +38,7 @@ public extension PreviewProvider {
    static func console<Content: View>(@ViewBuilder yourContent: () -> Content) -> some View {
       ZStack {
          yourContent()
-         PullUp( Console() )
+         PreviewConsole()
       }
       .previewDisplayName("Debugger's log") //  Stardate 4523.3
    }
@@ -46,14 +46,13 @@ public extension PreviewProvider {
    static func console<Content: View>(_ yourContent: Content) -> some View {
       ZStack {
          yourContent
-         PullUp( Console() )
+         PreviewConsole()
       }
       .previewDisplayName("Debugger's log") //  Stardate 4523.3
    }
 }
 
-struct PullUp<Content: View>: View {
-   var content: Content
+struct PreviewConsole: View {
    @StateObject
    var viewmodel = PullUpVM()
    @State var timer: Timer?
@@ -63,11 +62,12 @@ struct PullUp<Content: View>: View {
             Color.clear
             VStack(spacing: 0) {
                PullUpBar()
-               content
+               Console()
             }
             .animation(.easeIn(duration: 0.75), value: viewmodel.isUp )  // animate open/close  (not dragging!)
             .environmentObject(viewmodel)  // Pass viewmodel into enviroment for reference by wrapped view
-         }.onAppear {
+         }
+         .onAppear {
             viewmodel.setScreenHeight(to: geo.size.height)
             let i = 0.42
             timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
@@ -82,9 +82,6 @@ struct PullUp<Content: View>: View {
          }
       }
       .edgesIgnoringSafeArea(.all)
-   }
-   init(_ wrapped: Content) {
-      content = wrapped
    }
 }
 
@@ -227,7 +224,7 @@ extension Comparable {
 #else
 // Production code.. still needs a call to console { } for syntactic compliance,
 // but since this is an extension of PreviewProvider
-// it will be eliminated in the compiler for production.
+// it will be eliminated in the compiler.
 
 public extension PreviewProvider {
    /// Add a pull-up console. Invoke with console { ... }
@@ -239,6 +236,4 @@ public extension PreviewProvider {
          yourContent
    }
 }
-
-
 #endif

@@ -33,8 +33,6 @@ import SwiftUI
  }
  */
 
-postfix operator .|
-
 public extension PreviewProvider {
    /// Add a pull-up console. Invoke with console { ... }
    static func console<Content: View>(@ViewBuilder yourContent: () -> Content) -> some View {
@@ -51,10 +49,6 @@ public extension PreviewProvider {
          PullUp( Console() )
       }
       .previewDisplayName("Debugger's log") //  Stardate 4523.3
-   }
-
-   static postfix func .| ( lhs: Self) -> some View where Self: View {
-      console( lhs )
    }
 }
 
@@ -107,6 +101,7 @@ final class PullUpVM: ObservableObject {
    @Published
    var arrowFraction: Double = 0 // { frameHeight > 0 ? 1.0 : 0.0 }
    init() {
+      // Set arrowpointer on the handle based on the height of the console frame.
 		$frameHeight.map { $0 > 0 ? 1 : 0 }
          .assign(to: &$arrowFraction)
    }
@@ -116,7 +111,9 @@ final class PullUpVM: ObservableObject {
       if isUp {
          lastFrameHeight = frameHeight
          frameHeight = 0
-      } else { frameHeight = lastFrameHeight }
+      } else {
+         frameHeight = lastFrameHeight
+      }
    }
 
    // Default initial screenHeight setting will be overwritten by Geometry Reader

@@ -75,17 +75,16 @@ final class ConsoleVM: ObservableObject {
    /// Place a message on the console;, both the Preview pull up console and on the Simulator console
    /// Please use Log(_:_:) if you need to log a message in View composition code
    public func log(_ text: String, messageType: MessageType) {
-      guard !text.count.words.isEmpty else { return }  // abort silently if expression is empty
-                                                       // Also log to standard console
-      let stringDate =
-      Date.now.formatted(date: .omitted, time: .standard)
+		// abort silently if expression is empty
+      guard !text.count.words.isEmpty else { return }
+      // Also log to standard console
+      let stringDate = Date.now.formatted(date: .omitted, time: .standard)
       Swift.print("text   @ \(stringDate)")
       // append new log message to our message array
       messages.append(Message(text: text, messageType: messageType ))
       // Cap messages array at specified maximum number of messages
       if messages.count > Defaults.maximumMessageCount {
          messages = Array(messages.dropFirst())
-         // alt .suffix(Defaults.maximumMessageCount))
       }
    }
 

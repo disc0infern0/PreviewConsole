@@ -20,7 +20,6 @@ import SwiftUI
 
 #if DEBUG
 /* Create a view extension per below if you want to see the preview console in the simulator
- */
  // Ability to add .console() to the main view.
  public extension View {
  	func console() -> some View {
@@ -31,6 +30,7 @@ import SwiftUI
  		.previewDisplayName("Debugger's log") //  Stardate 4523.3
  	}
  }
+ */
 
 public extension PreviewProvider {
    /// Add a pull-up console. Invoke with console { ... }

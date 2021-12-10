@@ -1,7 +1,7 @@
 PreviewConsole
 ==============
 
-Overlays a resizeable console of log messages over the Code preview screen  
+Read those print() messages in your SwiftUI Previews!! Overlays a resizeable bottom sheet view printed/logged messages over the preview screen  
 
 Features
 ========

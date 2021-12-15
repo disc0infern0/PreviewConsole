@@ -4,9 +4,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "PreviewConsole",
-    platforms: [ .iOS(.v15), .macOS(.v12), .watchOS(.v8) ],
-    products: [ .library( name: "PreviewConsole", targets: ["PreviewConsole"]) ],
-    dependencies: [],
-    targets: [ .target( name: "PreviewConsole", dependencies: []) ]
-)
+   name: "PreviewConsole",
+   platforms: [ .iOS(.v15), .macOS(.v12), .watchOS(.v8) ],
+   products: [ .library( name: "PreviewConsole", targets: ["PreviewConsole"]) ],
+   dependencies: [],
+   targets: [ .target( name: "PreviewConsole", dependencies: []) ]
+                     )
